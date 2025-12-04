@@ -1,6 +1,6 @@
-/* CSS Variables for Theme Management */
+/* CSS Variables for Theme Management + Custom Theme */
 :root {
-  /* Light theme colors */
+  /* Existing variables (kept for compatibility) */
   --bg-primary: #ffffff;
   --bg-secondary: #f8f9fa;
   --text-primary: #282c34;
@@ -8,6 +8,31 @@
   --border-color: #e9ecef;
   --button-bg: #007bff;
   --button-text: #ffffff;
+
+  /* Custom Theme variables */
+  --color-primary: #d71a84;
+  --color-secondary: #043b9b;
+  --color-success: #043b9b;
+  --color-bg: #0046be;
+  --color-surface: #FFFFFF;
+  --color-text: #374151;
+
+  /* Connection Status Bar layout */
+  --csb-height: 48px;
+  --csb-z: 9999;
+
+  /* Status colors derived from theme with good contrast */
+  --csb-online-bg: var(--color-success);
+  --csb-online-fg: #ffffff;
+
+  --csb-offline-bg: #7c2d12; /* deep brown/red for visibility */
+  --csb-offline-fg: #ffffff;
+
+  --csb-reconnecting-bg: var(--color-primary);
+  --csb-reconnecting-fg: #ffffff;
+
+  --csb-connecting-bg: #6b7280; /* gray-500 */
+  --csb-connecting-fg: #ffffff;
 }
 
 [data-theme="dark"] {
@@ -19,6 +44,19 @@
   --border-color: #404040;
   --button-bg: #0056b3;
   --button-text: #ffffff;
+
+  /* Dark mode overrides for status bar to maintain contrast */
+  --csb-online-bg: #22c55e;         /* emerald-500 */
+  --csb-online-fg: #04130a;
+
+  --csb-offline-bg: #991b1b;        /* red-700 */
+  --csb-offline-fg: #ffffff;
+
+  --csb-reconnecting-bg: #be185d;   /* pink-700-ish */
+  --csb-reconnecting-fg: #ffffff;
+
+  --csb-connecting-bg: #374151;     /* gray-700 */
+  --csb-connecting-fg: #f9fafb;
 }
 
 .App {
@@ -27,6 +65,72 @@
   color: var(--text-primary);
   min-height: 100vh;
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Connection Status Bar (csb) */
+.csb {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: var(--csb-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  z-index: var(--csb-z);
+  padding: 8px 12px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  /* playful rounded look on large screens */
+  border-radius: 0;
+}
+
+@media (min-width: 768px) {
+  .csb {
+    width: calc(100% - 24px);
+    margin: 8px auto;
+    border-radius: 12px;
+  }
+  .csb.csb--top { top: 0; }
+  .csb.csb--bottom { bottom: 0; }
+}
+
+/* Positions */
+.csb--top { top: 0; }
+.csb--bottom { bottom: 0; }
+
+/* Icon */
+.csb__icon {
+  font-size: 1rem;
+  opacity: 0.95;
+}
+
+/* Variants */
+.csb--online {
+  background: var(--csb-online-bg);
+  color: var(--csb-online-fg);
+}
+.csb--offline {
+  background: var(--csb-offline-bg);
+  color: var(--csb-offline-fg);
+}
+.csb--reconnecting {
+  background: var(--csb-reconnecting-bg);
+  color: var(--csb-reconnecting-fg);
+}
+.csb--connecting {
+  background: var(--csb-connecting-bg);
+  color: var(--csb-connecting-fg);
+}
+
+/* Screen-reader only helper */
+.csb__sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0);
+  border: 0;
 }
 
 .App-logo {

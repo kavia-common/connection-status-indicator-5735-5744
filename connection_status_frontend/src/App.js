@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import ConnectionStatusBar from './components/ConnectionStatusBar';
 
 // PUBLIC_INTERFACE
 function App() {
@@ -18,6 +19,7 @@ function App() {
 
   return (
     <div className="App">
+      <ConnectionStatusBar position="top" />
       <header className="App-header">
         <button 
           className="theme-toggle" 

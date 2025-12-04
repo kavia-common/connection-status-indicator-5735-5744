@@ -1,5 +1,7 @@
 body {
   margin: 0;
+  /* Add top padding to avoid content hidden by fixed status bar */
+  padding-top: 56px; /* slight > var(--csb-height) considering margin on large screens */
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
