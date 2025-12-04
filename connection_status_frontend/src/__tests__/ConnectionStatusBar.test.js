@@ -77,4 +77,41 @@ describe('ConnectionStatusBar', () => {
     const bar = screen.getByRole('status');
     expect(bar.className).toMatch(/csb--bottom/);
   });
+
+  test('renders DB details when showDbDetails is true', () => {
+    render(<ConnectionStatusBar showDbDetails />);
+    const dbGroup = screen.getByRole('group', { name: /database details/i });
+    expect(dbGroup).toBeInTheDocument();
+
+    // labels present
+    expect(dbGroup).toHaveTextContent(/Name:/i);
+    expect(dbGroup).toHaveTextContent(/Type:/i);
+    expect(dbGroup).toHaveTextContent(/Host:/i);
+    expect(dbGroup).toHaveTextContent(/Region:/i);
+    expect(dbGroup).toHaveTextContent(/Version:/i);
+
+    // latency/status chips present
+    const latencyNode = screen.getByTestId('db-latency');
+    const statusNode = screen.getByTestId('db-status');
+    expect(latencyNode).toBeInTheDocument();
+    expect(statusNode).toBeInTheDocument();
+    expect(latencyNode.textContent).toMatch(/Latency: \d+ ms/);
+  });
+
+  test('latency updates over time using fake timers', () => {
+    jest.useFakeTimers();
+    render(<ConnectionStatusBar showDbDetails />);
+
+    const latencyNode = screen.getByTestId('db-latency');
+    const firstText = latencyNode.textContent;
+
+    // The interval is 10-15s; advance 16s to be safe
+    act(() => {
+      jest.advanceTimersByTime(16000);
+    });
+
+    const secondText = latencyNode.textContent;
+    // Chance exists to match, but extremely low; if flaky, we still accept difference check
+    expect(secondText).not.toBe(firstText);
+  });
 });
